@@ -1,17 +1,24 @@
 import './App.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-          Forget React
-      </header>
-    </div>
+  const [open, setOpen] = React.useState(true);
+  window._debug = {
+    openModal: () => setOpen(true),
+    closeModal: () => setOpen(false),
+  }
+  return(
+    <Modal isOpen={open} toggle={() => setOpen(false)}>
+    <ModalHeader>
+      Modal title
+    </ModalHeader>
+    <ModalBody>
+      Modal body text goes here.
+    </ModalBody>
+  </Modal>
   );
+  
 }
 
 export default App;
