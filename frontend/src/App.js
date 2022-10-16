@@ -8,7 +8,6 @@ function App() {
     openModal: () => setOpen(true),
     closeModal: () => setOpen(false),
   } 
-  
   return(
     <>
     <Modal isOpen={open} toggle={() => setOpen(false)}>
