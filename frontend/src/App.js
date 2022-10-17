@@ -18,7 +18,7 @@ function App() {
       Modal body text goes here.
     </ModalBody>
   </Modal>
-  <button type="button" className="btn btn-primary" onClick={()=>setOpen(true)}>OPENMOskdhkDAL</button>
+  <button type="button" className="btn btn-primary" onClick={()=>setOpen(true)}>odsfjo</button>
   </>
   );
   
