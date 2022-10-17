@@ -16,9 +16,9 @@ function App() {
     </ModalHeader>
     <ModalBody>
       Modal body text goes here.
-    </ModalBody>
+    </ModalBody>od
   </Modal>
-  <button type="button" className="btn btn-primary" onClick={()=>setOpen(true)}>odsfjo</button>
+  <button type="button" className="btn btn-primary" onClick={()=>setOpen(true)}>OPen MODAL</button>
   </>
   );
   
