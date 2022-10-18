@@ -24,9 +24,12 @@ jobs:
         with:
           node-version: '14'
       
+      - name: Change into frontend directory
+        run: cd frontend
+
       - name: Setup dependencies
         run: npm ci
-      
+
       - name: Build site
         run: npm run build
         
