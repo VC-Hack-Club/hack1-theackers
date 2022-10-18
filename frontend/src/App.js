@@ -18,7 +18,7 @@ function App() {
     </ModalHeader>
     <ModalBody>
       Modal body text goes here.
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
     </ModalBody>
   </Modal>
   <div id="firebaseui-auth-container"></div>
