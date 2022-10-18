@@ -12,7 +12,10 @@ jobs:
   build:
     name: Build Site
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -23,9 +26,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '14'
-      
-      - name: Change into frontend directory
-        run: cd frontend
 
       - name: Setup dependencies
         run: npm ci
