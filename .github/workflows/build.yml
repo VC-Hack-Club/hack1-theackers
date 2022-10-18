@@ -1,0 +1,47 @@
+name: site-build
+run-name: ${{ github.actor }} / ${{ github.run_number }} / ${{ github.sha }} / ${{ github.ref }} - site build
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    name: Build Site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+        
+      - name: Install Nodejs & dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      
+      - name: Setup dependencies
+        run: npm ci
+      
+      - name: Build site
+        run: npm run build
+        
+      - name: Upload build to artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: site-build
+          path: dist/
+      
+      - name: Upload build to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          user_name: github-actions
+          user_email: github-actions@github.com
+
