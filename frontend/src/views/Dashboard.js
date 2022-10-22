@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import './Dashstyle.css';
 
-import Header from '../components/Header';
+// import Header from '../components/Header';
 
 function Dashboard() {
     const [collapsed, setCollapsed] = useState(true);
@@ -27,10 +27,10 @@ function Dashboard() {
           <a className="nav-link active" aria-current="page" href="index.html">Home</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="http://bit.ly/4kb77v">Sign up to help out</a>
+          <a className="nav-link" href="https://tinyurl.com/4d6nammc">Sign up to help out</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="http://bit.ly/4kb77v">Sign up to become a volunteer</a>
+          <a className="nav-link" href="https://tinyurl.com/4d6nammc">Sign up to become a volunteer</a>
         </li>
       </ul>
       <form className="d-flex" role="search">
