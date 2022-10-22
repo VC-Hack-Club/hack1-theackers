@@ -31,13 +31,16 @@ jobs:
         run: npm ci
 
       - name: Build site
-        run: npm run build
-        
+        run: CI=false npm run build
+
+      - name: Zip site
+        run: zip -r dist.zip dist
+
       - name: Upload build to artifact
         uses: actions/upload-artifact@v2
         with:
           name: site-build
-          path: dist/
+          path: ./dist.zip
       
       - name: Upload build to gh-pages
         uses: peaceiris/actions-gh-pages@v3
