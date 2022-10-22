@@ -33,18 +33,20 @@ jobs:
       - name: Build site
         run: CI=false npm run build
 
-        
+      - name: Zip site
+        run: zip -r dist.zip dist
+
       - name: Upload build to artifact
         uses: actions/upload-artifact@v2
         with:
           name: site-build
-          path: ./frontend/dist/
+          path: ./dist.zip
       
       - name: Upload build to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/dist
+          publish_dir: ./dist
           publish_branch: gh-pages
           user_name: github-actions
           user_email: github-actions@github.com
