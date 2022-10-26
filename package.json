@@ -2,6 +2,7 @@
   "dependencies": {
     "firebase": "^9.12.1",
     "firebaseui": "^6.0.1",
-    "react-firebaseui": "^6.0.0"
+    "react-firebaseui": "^6.0.0",
+    "twilio": "^3.83.0"
   }
 }
