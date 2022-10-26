@@ -28,19 +28,7 @@ function Navbar() {
     </div>
   </div>
 </nav>
-    // <nav>
-    //   <ul>
-    //     <li>
-    //       <Link to="/">Home</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/Helpout">About</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/Volunteer">Contact</Link>
-    //     </li>
-    //   </ul>
-    // </nav>
+    
   );
 }
 
