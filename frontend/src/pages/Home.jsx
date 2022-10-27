@@ -14,8 +14,7 @@ function Home() {
         <p className="lead">Call this number: <a href="tel://911">911</a></p>
     </div>
     </main>        
-    </>
-
+</>
   );
 }
 
