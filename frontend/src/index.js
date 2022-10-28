@@ -14,6 +14,7 @@ export default function App() {
           <Route path="Helpout" element={<Helpout />} />
           <Route path="Volunteer" element={<Volunteer />} />
           <Route path="Login" element={<Login />} />
+          <Route path = "Submit Request" elemnt = {<SubmitReq/>} />
         </Route>
       </Routes>
     </BrowserRouter>
