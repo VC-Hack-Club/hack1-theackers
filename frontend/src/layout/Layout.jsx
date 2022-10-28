@@ -6,8 +6,8 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <div class="alert alert-danger mb-20" role="alert">
-    <h4 class="alert-heading mb-2">Do you need immediate help?</h4>
+      <div className="alert alert-danger mb-20" role="alert">
+    <h4 className="alert-heading mb-2">Do you need immediate help?</h4>
     <p>
     If the situation is potentially life-threatening, get immediate emergency assistance by calling <a href="tel://911">911</a>, available 24 hours a day.
     </p>
