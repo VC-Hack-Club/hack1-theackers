@@ -8,6 +8,20 @@ function Helpout(){
     const [quantity, setQuantity] = useState('');
     const [zipcode, setZIPCode] = useState('');
     const [email, setEmail] = useState('');
+    const [documentID, setDocumentID] = useState('');
+    const [didSubmit, setDidSubmit] = useState(false);
+    function handleSubmit(){
+        // Send a GET request to the backend
+        // with the user's input
+        // and display the results
+        // on the page
+        console.log(genericName);
+        console.log(quantity);
+        console.log(zipcode);
+        console.log(email);
+        // CORS issues: just open the api in a new tab
+        window.open('http://localhost:8080/donate?genericName=' + genericName + '&quantity=' + quantity + '&zipCode=' + zipcode + '&email=' + email);
+    }
     return (
         <>
             <div className='text-center'>
@@ -36,8 +50,17 @@ function Helpout(){
                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={(e) => {
                     e.preventDefault();
                     //doLogin();
+                    handleSubmit();
                 }}>Submit</button>
                 </form>
+                <div id="submissionData">
+                    <p>Generic Name: {genericName}</p>
+                    <p>Quantity: {quantity}</p>
+                    <p>ZIP Code: {zipcode}</p>
+                    <p>Email: {email}</p>
+                    <p>Document ID: {}</p>
+                    <p>Submitted: {}</p>
+                </div>
             </div>
         </>
     )

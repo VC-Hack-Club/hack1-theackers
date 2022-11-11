@@ -8,6 +8,9 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS, cross_origin
+from flask import request
+
+from sendEmail import send_email as sendDonationEmail
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -24,7 +27,13 @@ def index():
     return {"message": "Hello, World!"}
 
 @app.get('/donate')
-def donate(genericName, quantity, zipCode, email):
+def donate():
+    genericName = request.args.get('genericName')
+    quantity = request.args.get('quantity')
+    zipCode = request.args.get('zipCode')
+    email = request.args.get('email')
+    print(genericName)
+
     doc_ref = db.collection(u'donate').document()
     doc_ref.set({
         u'genericName': genericName,
@@ -34,32 +43,39 @@ def donate(genericName, quantity, zipCode, email):
         u'isClaimed': False,
         u'isDelivered': True
     })
-    return {"message": "Success!", "id": doc_ref.id}
+    # template message
+    message = "Thank you for donating " + str(quantity) + " " + genericName + " to the Food Bank. We will contact you when your donation is claimed."
+    message += "\n To donate more food, feel free to close this tab."
+    sendDonationEmail(email, message)
+    return message
 
 @app.get('/deliver')
-def request(doc_id):
-    doc_ref = db.collection(u'donate').document(doc_id)
+def deliver(id):
+    doc_ref = db.collection(u'donate').document(id)
     doc_ref.update({
         u'isDelivered': True
     }, merge=True)
     return {"message": "Success!"}
 
 @app.get('/claim')
-def request(doc_id):
-    doc_ref = db.collection(u'donate').document(doc_id)
+def claim():
+    id = request.args.get('id')
+    doc_ref = db.collection(u'donate').document(id)
     doc_ref.update({
         u'isClaimed': True
     }, merge=True)
     return {"message": "Success!"}
 
 @app.get('/get')
-def get(zip_code):
-    docs = db.collection(u'donate').where(u'zipCode', u'==', zip_code).where(u'isClaimed', u'==', False).where(u'isDelivered', u'==', False).stream()
+def get():
+    zip_code = int(request.args.get('zipCode'))
+    docs = db.collection(u'donate').where(u'zipCode', u'==', zip_code).where(u'isClaimed', u'==', False).where(u'isDelivered', u'==', True).stream()
     return [doc.to_dict() for doc in docs]
 
 @app.get('/search')
-def search(generic_name):
-    docs = db.collection(u'donate').where(u'genericName', u'==', generic_name).where(u'isClaimed', u'==', False).where(u'isDelivered', u'==', False).stream()
+def search():
+    generic_name = request.args.get('genericName')
+    docs = db.collection(u'donate').where(u'genericName', u'==', generic_name).where(u'isClaimed', u'==', False).where(u'isDelivered', u'==', True).stream()
     return [doc.to_dict() for doc in docs]
 
 
