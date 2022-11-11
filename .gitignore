@@ -21606,3 +21606,5 @@ node_modules/xmlbuilder/lib/XMLTypeInfo.js
 node_modules/xmlbuilder/lib/XMLUserDataHandler.js
 node_modules/xmlbuilder/lib/XMLWriterBase.js
 node_modules/xmlbuilder/typings/index.d.ts
+
+serviceAccountKey.json
