@@ -34,6 +34,12 @@ def donate():
     email = request.args.get('email')
     print(genericName)
 
+    # See if the zipCode document exists
+    doc_ref = db.collection(u'locations').document(str(zipCode))
+    doc = doc_ref.get()
+    if not doc.exists:
+        return "Sorry, we don't have any locations in that zip code. Try 95111 or 95054."
+
     doc_ref = db.collection(u'donate').document()
     doc_ref.set({
         u'genericName': genericName,
@@ -48,6 +54,41 @@ def donate():
     message += "\n To donate more food, feel free to close this tab."
     sendDonationEmail(email, message)
     return message
+
+@app.get('/all')
+def all():
+    try:
+        zipCode = request.args.get('zipCode', default = 0, type = int)
+        if zipCode == 0:
+            docs = db.collection(u'donate').stream()
+        else:
+            docs = db.collection(u'donate').where(u'zipCode', u'==', int(zipCode)).stream()
+        docs = list(docs)
+        if len(docs) == 0:
+            return "No results found."
+        else:
+            html_body = "<table><tr><th>Quantity</th><th>Generic Name</th><th>Zip Code</th><th>Email</th><th>Is Claimed</th><th>Is Delivered</th></tr>"
+            for doc in docs:
+                html_body += "<tr><td>" + str(doc.to_dict()['quantity']) + "</td><td>" + doc.to_dict()['genericName'] + "</td><td>" + str(doc.to_dict()['zipCode']) + "</td><td>" + doc.to_dict()['email'] + "</td><td>" + str(doc.to_dict()['isClaimed']) + "</td><td>" + str(doc.to_dict()['isDelivered']) + "</td></tr>"
+            html_body += "</table>"
+            return html_body
+    except Exception as e:
+        return "Sorry, no results found."
+
+@app.get('/showall')
+def all_all():
+    docs = db.collection(u'donate').stream()
+    docs = list(docs)
+    if len(docs) == 0:
+        return "No results found."
+    else:
+        html_body = "<table><tr><th>Quantity</th><th>Generic Name</th><th>Zip Code</th><th>Email</th><th>Is Claimed</th><th>Is Delivered</th></tr>"
+        for doc in docs:
+            print(doc.to_dict())
+            html_body += "<tr><td>" + str(doc.to_dict()['quantity']) + "</td><td>" + doc.to_dict()['genericName'] + "</td><td>" + str(doc.to_dict()['zipCode']) + "</td><td>" + doc.to_dict()['email'] + "</td><td>" + str(doc.to_dict()['isClaimed']) + "</td><td>" + str(doc.to_dict()['isDelivered']) + "</td></tr>"
+        html_body += "</table>"
+        return html_body        
+
 
 @app.get('/deliver')
 def deliver(id):

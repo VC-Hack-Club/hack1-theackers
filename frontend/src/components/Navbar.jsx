@@ -21,7 +21,7 @@ function Navbar() {
                <Link className="nav-link" to="/Helpout">Helpout</Link>
         </li>
         <li className="nav-item">
-        <Link  className="nav-link" to="/Volunteer">Volunteer</Link>
+        <a  className="nav-link" href="http://localhost:8080/showall">View All</a>
         </li>
       </ul>
       <Link className="btn btn-outline-success my-2 my-lg-0" to="/Login">Login</Link>

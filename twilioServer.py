@@ -36,7 +36,7 @@ def sms_reply():
         # Get the search term
         generic_name = incoming_msg.split(' ', 1)[1]
         # Search for the food item in the database
-        docs = db.collection(u'donate').where(u'genericName', u'==', generic_name).stream()
+        docs = db.collection(u'donate').where(u'genericName', u'==', generic_name).where(u'isClaimed', u'==', False).limit(5).stream()
         # If there are no results, return a message saying so
         # turn docs into a list
         docs = list(docs)
@@ -58,20 +58,38 @@ def sms_reply():
         # Get the ID
         id_ = incoming_msg.split(' ', 1)[1].strip()
         print(id_)
-        # Claim the food item in the database
+        # Make sure the ID isn't claimed
         doc_ref = db.collection(u'donate').document(id_)
-        doc_ref.update({
-            u'isClaimed': True
-        })
-        # Get the food item's data
         doc = doc_ref.get()
-        # get the food items name
-        generic_name = doc.to_dict()['genericName']
-        # Return a message saying so
-        msg.body(f"Food item of {generic_name} claimed.")
-        emailMsg = "Your donation of " + str(doc.to_dict()['quantity']) + " " + doc.to_dict()['genericName'] + " has been claimed. Thank you for your donation!"
-        sendDonationEmail(doc.to_dict()['email'], emailMsg)
-        responded = True
+        if not doc.exists:
+            msg.body("Sorry, that ID doesn't exist.")
+            responded = True
+        elif doc.to_dict()['isClaimed']:
+            msg.body("Sorry, that item has already been claimed.")
+            responded = True
+        else:
+            # Claim the food item in the database
+            doc_ref = db.collection(u'donate').document(id_)
+            doc_ref.update({
+                u'isClaimed': True
+            })
+            # Get the food item's data
+            doc = doc_ref.get()
+            # Grab the zip-code
+            zip_code = doc.to_dict()['zipCode']
+            loc_ref = db.collection(u'locations').document(str(zip_code))
+            # Grab the location's data
+            loc = loc_ref.get()
+            # Grab the location's address
+            address = loc.to_dict()['address']
+            maps_link = "https://www.google.com/maps/search/?api=1&query=" + address
+            # get the food items name
+            generic_name = doc.to_dict()['genericName']
+            # Return a message saying so
+            msg.body(f"Food item of {generic_name} claimed. It is located at {address}. {maps_link}")
+            emailMsg = "Your donation of " + str(doc.to_dict()['quantity']) + " " + doc.to_dict()['genericName'] + " has been claimed. Thank you for your donation!"
+            sendDonationEmail(doc.to_dict()['email'], emailMsg)
+            responded = True
     elif 'donate' in incoming_msg.lower():
         # Donate a food item in the database based on the user's input of the ID
         # Return a message saying so

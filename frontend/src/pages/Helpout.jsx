@@ -56,10 +56,13 @@ function Helpout(){
                 <div id="submissionData">
                     <p>Generic Name: {genericName}</p>
                     <p>Quantity: {quantity}</p>
-                    <p>ZIP Code: {zipcode}</p>
+                    <p>ZIP Code: <a href={"http://localhost:8080/all?zipCode=" + zipcode}>View all for {zipcode}</a></p>
                     <p>Email: {email}</p>
                     <p>Document ID: {}</p>
                     <p>Submitted: {}</p>
+                </div>
+                <div>
+                <iframe src={"http://localhost:8080/all?zipCode=" + zipcode}></iframe>
                 </div>
             </div>
         </>
